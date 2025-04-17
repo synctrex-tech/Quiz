@@ -168,12 +168,21 @@
 
       // Store a flag in localStorage to indicate the certificate has been generated
       localStorage.setItem('certificateGenerated', 'true');
+
+      // Store a flag in a cookie to prevent generation across browsers
+      document.cookie = "certificateGenerated=true; max-age=31536000; path=/";
     }
 
     // Function to check the certificate status on page load
     function checkCertificateStatus() {
-      const certificateGenerated = localStorage.getItem('certificateGenerated');
-      if (certificateGenerated === 'true') {
+      // Check localStorage
+      const certificateGeneratedLocal = localStorage.getItem('certificateGenerated');
+
+      // Check cookies
+      const cookies = document.cookie.split(';').map(cookie => cookie.trim());
+      const certificateGeneratedCookie = cookies.find(cookie => cookie.startsWith('certificateGenerated='));
+
+      if (certificateGeneratedLocal === 'true' || certificateGeneratedCookie === 'certificateGenerated=true') {
         // Disable the form and button
         document.getElementById('name').disabled = true;
         document.getElementById('college').disabled = true;
