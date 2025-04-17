@@ -143,6 +143,7 @@
   </div>
 
   <script>
+    // Function to generate the certificate
     function generateCertificate() {
       const name = document.getElementById('name').value;
       const college = document.getElementById('college').value;
@@ -162,8 +163,29 @@
 
       // Disable further access
       document.getElementById('generate').disabled = true;
+
+      // Store a flag in localStorage to indicate the certificate has been generated
+      localStorage.setItem('certificateGenerated', 'true');
     }
 
+    // Function to check the certificate status on page load
+    function checkCertificateStatus() {
+      const certificateGenerated = localStorage.getItem('certificateGenerated');
+      if (certificateGenerated === 'true') {
+        // Disable the form and button
+        document.getElementById('name').disabled = true;
+        document.getElementById('college').disabled = true;
+        document.getElementById('generate').disabled = true;
+
+        // Hide the form and show a message
+        document.querySelector('.form-container').style.display = 'none';
+        alert('You have already generated the certificate. Refreshing is disabled.');
+      }
+    }
+
+    // Check the certificate status on page load
+    window.onload = checkCertificateStatus;
+    
     function downloadCertificate() {
       const certificate = document.getElementById('certificate');
       html2canvas(certificate).then(canvas => {
