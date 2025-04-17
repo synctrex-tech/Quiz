@@ -153,15 +153,17 @@
         return;
       }
 
+      // Populate the certificate with user data
       document.getElementById('recipient-name').textContent = name;
       document.getElementById('recipient-college').textContent = college;
       document.getElementById('date').textContent = new Date().toLocaleDateString();
 
+      // Hide the form and show the certificate
       document.querySelector('.form-container').style.display = 'none';
       document.getElementById('certificate').style.display = 'flex';
       document.querySelector('.download-container').style.display = 'block';
 
-      // Disable further access
+      // Disable the generate button
       document.getElementById('generate').disabled = true;
 
       // Store a flag in localStorage to indicate the certificate has been generated
@@ -179,13 +181,14 @@
 
         // Hide the form and show a message
         document.querySelector('.form-container').style.display = 'none';
-        alert('You have already generated the certificate. Refreshing is disabled.');
+        alert('You have already generated the certificate. You cannot generate another one.');
       }
     }
 
     // Check the certificate status on page load
     window.onload = checkCertificateStatus;
-    
+
+    // Function to download the certificate as an image
     function downloadCertificate() {
       const certificate = document.getElementById('certificate');
       html2canvas(certificate).then(canvas => {
